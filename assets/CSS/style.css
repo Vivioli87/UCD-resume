@@ -89,11 +89,11 @@ h1,h2,h3,h4{
     display: table;
 }
 
-/*.section-column{
+.section-column{
     display: table-cell;
     padding: 0 30px 30px;
     float: none;
-} */
+}
 
 .history-heading,
 .section-heading{

@@ -21,23 +21,23 @@ function repoInformationHTML(repos) {
     }
 
     let listItemsHTML = repos.map(function(repo) {
-      return `<li>
-                <a href="$rep.html_url}" target="_blank">${repo.name}</a>
-              </li>`;
+        return `<li>
+                    <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+                </li>`;
     });
 
     return `<div class="clearfix repo-list">
-             <p>
-               <strong>Repo List:</strong>
-             </p>
-             <ul>
-               ${listItemsHTML.join("\n")}
-             </ul>
+                <p>
+                    <strong>Repo List:</strong>
+                </p>
+                <ul>
+                    ${listItemsHTML.join("\n")}
+                </ul>
             </div>`;
 }
 
 function fetchGitHubInformation(event) {
-    $("#gh-user-data").html(""); // emptys div when text box is empty
+    $("#gh-user-data").html("");
     $("#gh-repo-data").html("");
 
     let username = $("#gh-username").val();
@@ -53,7 +53,7 @@ function fetchGitHubInformation(event) {
 
     $.when(
         $.getJSON(`https://api.github.com/users/${username}`),
-        $.getJSON('https://api.github.com/users/${username}/repos')
+        $.getJSON(`https://api.github.com/users/${username}/repos`)
     ).then(
         function(firstResponse, secondResponse) {
             let userData = firstResponse[0];
@@ -65,9 +65,9 @@ function fetchGitHubInformation(event) {
             if (errorResponse.status === 404) {
                 $("#gh-user-data").html(
                     `<h2>No info found for user ${username}</h2>`);
-            } else if (errorResponse.status === 403) { //status for when made too many requests - message given already has a reset time in Linux format.
-                let resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset')*1000);
-                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`)
+            } else if (errorResponse.status === 403) {
+                var resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset') * 1000);
+                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`);
             } else {
                 console.log(errorResponse);
                 $("#gh-user-data").html(
