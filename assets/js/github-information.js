@@ -33,10 +33,12 @@ function repoInformationHTML(repos) {
              <ul>
                ${listItemsHTML.join("\n")}
              </ul>
-            </div>`
-};
+            </div>`;
+}
 
 function fetchGitHubInformation(event) {
+    $("#gh-user-data").html(""); // emptys div when text box is empty
+    $("#gh-repo-data").html("");
 
     let username = $("#gh-username").val();
     if (!username) {
@@ -70,3 +72,5 @@ function fetchGitHubInformation(event) {
             }
         });
 }
+
+$(document).ready(fetchGitHubInformation);
