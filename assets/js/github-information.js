@@ -65,6 +65,9 @@ function fetchGitHubInformation(event) {
             if (errorResponse.status === 404) {
                 $("#gh-user-data").html(
                     `<h2>No info found for user ${username}</h2>`);
+            } else if (errorResponse.status === 403) { //status for when made too many requests - message given already has a reset time in Linux format.
+                let resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset')*1000);
+                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`)
             } else {
                 console.log(errorResponse);
                 $("#gh-user-data").html(
